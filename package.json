@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon api/index.js",
     "build": "webpack --mode production",
-    "start": "node dist/bundle.js"
+    "start": "node api/index.js"
   },
   "author": "",
   "license": "ISC",
