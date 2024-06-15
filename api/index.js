@@ -1,16 +1,15 @@
-import express from 'express'
-const app = express();
+import express from 'express';
 import cors from 'cors';
 import generate from '../src/gemini.js';
 
-const port = process.env.PORT || 8080;
+const app = express();
 
 app.use(cors());
 
-app.get('/', async (req, res) => {
+app.get('/api', async (req, res) => {
   if (req.query.prompt) {
     try {
-      const generatedText = await generate(req.query.prompt); // Pass the correct query parameter
+      const generatedText = await generate(req.query.prompt);
       res.json({
         response: generatedText,
         status: 200
@@ -30,5 +29,4 @@ app.get('/', async (req, res) => {
   }
 });
 
-
-app.listen(port);
+export default app;
