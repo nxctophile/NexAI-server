@@ -1,9 +1,10 @@
 {
   "name": "nex-ai-server",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.js",
+    "dev": "nodemon api/index.js",
     "build": "webpack --mode production",
     "start": "node dist/bundle.js"
   },
