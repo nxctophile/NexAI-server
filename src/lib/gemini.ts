@@ -1,37 +1,28 @@
 import { config } from "dotenv";
 config();
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GoogleAIFileManager } from "@google/generative-ai/files";
 
-const API_KEY = process.env.GEMINI_API_KEY ?? '';
+const API_KEY = process.env.GEMINI_API_KEY ?? "";
 const genAI = new GoogleGenerativeAI(API_KEY);
-const fileManager = new GoogleAIFileManager(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-const date = new Date();
-
-const generate = async (prompt: string, image = undefined) => {
-  if (image) {
-    const uploadedImage = await fileManager.uploadFile(image, {
-      mimeType: "image/jpeg",
-      displayName: date.getMilliseconds().toString(),
-    });
-
-    console.log(
-      `Uploaded file ${uploadedImage.file.displayName} as: ${uploadedImage.file.uri}`
-    );
-
+const generate = async (
+  prompt: string,
+  imagetype: string | undefined = undefined,
+  imageuri: string | undefined = undefined
+) => {
+  if (imagetype && imageuri) {
     const result = await model.generateContent([
       {
         fileData: {
-          mimeType: uploadedImage.file.mimeType,
-          fileUri: uploadedImage.file.uri,
+          mimeType: imagetype ?? "",
+          fileUri: imageuri ?? "",
         },
       },
       { text: prompt },
     ]);
 
-    const response = await result.response;
+    const response = result.response;
     const text = response.text();
     return text;
   } else {

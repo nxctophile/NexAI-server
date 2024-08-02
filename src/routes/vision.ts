@@ -6,6 +6,7 @@ import fsExtra from "fs-extra";
 import path from "path";
 import { config } from "dotenv";
 import { GoogleAIFileManager } from "@google/generative-ai/files";
+import generate from "../lib/gemini";
 
 config();
 
@@ -30,11 +31,6 @@ const sanitizeFileName = (fileName: string) => {
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? "";
 
 router.post("/upload", upload.single("image"), async (req, res) => {
-  // const prompt = req.query.prompt?.toString();
-  // const mimetype = req.query.mimetype?.toString() ?? "image/jpeg";
-  // const displayName = req.query.imagename?.toString();
-  // const imageUri = req.query.imageuri?.toString();
-
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
@@ -67,6 +63,19 @@ router.post("/upload", upload.single("image"), async (req, res) => {
   } catch (error) {
     console.error("Error processing file:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.get("/generate", async (req, res) => {
+  const prompt = req.query.prompt?.toString();
+  const imagetype = req.query.imagetype?.toString();
+  const imageuri = req.query.imageuri?.toString();
+  if (prompt && imagetype && imageuri) {
+    const generatedText = await generate(prompt, imagetype, imageuri);
+    res.json({
+      response: generatedText,
+      status: 200,
+    });
   }
 });
 
