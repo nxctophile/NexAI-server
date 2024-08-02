@@ -17,9 +17,13 @@ const upload = multer({ storage });
 // Function to sanitize file name
 const sanitizeFileName = (fileName: string) => {
   // Replace invalid characters with dashes
-  let sanitized = fileName.replace(/[^a-z0-9-]/g, '-').toLowerCase();
+  let sanitized = fileName.replace(/[^a-z0-9-]/g, "-").toLowerCase();
   // Ensure the name does not begin or end with a dash
-  sanitized = sanitized.replace(/^-+|-+$/g, '');
+  sanitized = sanitized.replace(/^-+|-+$/g, "");
+  // Truncate to 40 characters if necessary
+  if (sanitized.length > 40) {
+    sanitized = sanitized.substring(0, 40);
+  }
   return sanitized;
 };
 
