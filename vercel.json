@@ -1,16 +1,31 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "api/index.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/api/index.js"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/routes/auth.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/routes/generate.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/routes/vision.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/auth(.*)",
+      "dest": "dist/routes/auth.js"
+    },
+    {
+      "src": "/generate(.*)",
+      "dest": "dist/routes/generate.js"
+    },
+    {
+      "src": "/vision(.*)",
+      "dest": "dist/routes/vision.js"
+    }
+  ]
+}

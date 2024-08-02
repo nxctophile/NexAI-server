@@ -3,18 +3,18 @@ config();
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleAIFileManager } from "@google/generative-ai/files";
 
-const API_KEY = process.env.GEMINI_API_KEY;
+const API_KEY = process.env.GEMINI_API_KEY ?? '';
 const genAI = new GoogleGenerativeAI(API_KEY);
 const fileManager = new GoogleAIFileManager(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const date = new Date();
 
-const generate = async (prompt, image = undefined) => {
+const generate = async (prompt: string, image = undefined) => {
   if (image) {
     const uploadedImage = await fileManager.uploadFile(image, {
       mimeType: "image/jpeg",
-      displayName: date.getMilliseconds(),
+      displayName: date.getMilliseconds().toString(),
     });
 
     console.log(
