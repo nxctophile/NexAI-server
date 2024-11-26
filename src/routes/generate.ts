@@ -1,5 +1,5 @@
 import express from "express";
-import generate from "../lib/gemini";
+import { generateCompletion } from "../lib/groq";
 
 const router = express.Router();
 
@@ -7,9 +7,10 @@ router.get("/", async (req, res) => {
   const prompt = req.query.prompt?.toString();
   if (prompt) {
     try {
-      const generatedText = await generate(prompt);
+      const generatedText = await generateCompletion(prompt);
+      const message = generatedText.choices[0]?.message?.content || "";
       res.json({
-        response: generatedText,
+        response: message,
         status: 200,
       });
     } catch (error: any) {
