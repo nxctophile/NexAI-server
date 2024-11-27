@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import generateRoutes from "./routes/generate";
 import authRoutes from "./routes/auth";
-import visionRoutes from "./routes/vision";
 
 const app = express();
 
@@ -18,7 +17,6 @@ app.use(cors());
 // Routes configuration
 app.use("/auth", authRoutes);
 app.use("/generate", generateRoutes);
-app.use("/vision", visionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
